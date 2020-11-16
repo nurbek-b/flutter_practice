@@ -1,0 +1,9 @@
+{
+  "name": "Имя",
+  "phone_number": "Номер",
+  "password": "Пароль",
+  "password_hint": "Введите пароль",
+  "required_field": "Обязательно к заполнению",
+  "orders": "Про нас",
+  "settings": "Настройки"
+}
