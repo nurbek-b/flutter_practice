@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_app/providers/diseasesPests.dart';
+import 'package:shop_app/providers/languages.dart';
 import 'package:shop_app/screens/details/components/diseasesOrPestsDetail.dart';
 
 
@@ -17,6 +19,7 @@ class DiseasListByGroup extends StatefulWidget {
 class _DiseasListByGroupState extends State<DiseasListByGroup> {
   @override
   Widget build(BuildContext context) {
+    final appLanguage = Provider.of<AppLanguage>(context).appLocal;
     return  Scaffold(
       appBar: AppBar(
         title: Text(widget.title,
@@ -57,7 +60,7 @@ class _DiseasListByGroupState extends State<DiseasListByGroup> {
                   contentPadding: EdgeInsets.symmetric(
                       horizontal: 5.0, vertical: 2.0),
                   title: Container(
-                    height: 40,
+                    height: 70,
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -70,12 +73,14 @@ class _DiseasListByGroupState extends State<DiseasListByGroup> {
                               children: <Widget>[
                                 SizedBox(height: 10.0,),
                                 Center(
-                                  child: Text(
-                                    widget.items[ind].titleRu,
+                                  // ignore: unrelated_type_equality_checks
+                                  child: Text( appLanguage == "ky"
+                                    ? widget.items[ind].titleRu
+                                    : widget.items[ind].titleKy,
                                     style: TextStyle(
                                         fontFamily: "Gotik",
                                         fontWeight: FontWeight.w400,
-                                        fontSize: 20.0),
+                                        fontSize: 18.0),
                                   ),
                                 ),
                                 SizedBox(

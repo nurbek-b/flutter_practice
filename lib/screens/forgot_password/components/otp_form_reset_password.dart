@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/app_localizations.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/providers/auth.dart';
 import 'package:shop_app/screens/forgot_password/password_reset_screen.dart';
@@ -161,7 +162,7 @@ class _OtpPasswordFormState extends State<OtpPasswordForm> {
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.10),
           DefaultButton(
-            text: "Продолжить",
+            text: AppLocalizations.of(context).translate('proceed'),
             press: ()async {
               var phone = await Storage().secureStorage.read(key: "phone");
               final otpNum = "$pin1$pin2$pin3$pin4$pin5$pin6";

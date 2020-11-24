@@ -14,9 +14,10 @@ class DefaultButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData mediaQueryData = MediaQuery.of(context);
     return SizedBox(
       width: double.infinity,
-      height: getProportionateScreenHeight(56),
+      height: (110 / 812.0) * mediaQueryData.size.width,
       child: FlatButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         color: kPrimaryColor,
@@ -24,7 +25,7 @@ class DefaultButton extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            fontSize: getProportionateScreenWidth(18),
+            fontSize: (18 / 375.0) * mediaQueryData.size.width,
             color: Colors.white,
           ),
         ),

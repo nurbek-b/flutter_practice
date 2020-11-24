@@ -21,7 +21,7 @@ class Product with ChangeNotifier {
   bool isFavourite;
   bool isPopular;
   bool addedToCart;
-  double quantity;
+  int quantity;
 
 
   Product({

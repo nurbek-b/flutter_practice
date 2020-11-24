@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/style.dart';
 
 
 class GrowingTech extends StatelessWidget {
@@ -19,10 +20,10 @@ class GrowingTech extends StatelessWidget {
             fontWeight: FontWeight.w400,
             color: Color(0xFF1B5E20)),)),
       body: SingleChildScrollView(child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Html(data: desc),
-      )),
-
+        padding: const EdgeInsets.all(25.0),
+        child: Html(data: desc, style: {'body': Style(textAlign: TextAlign.justify)},),
+      ),
+      ),
     );
   }
 }

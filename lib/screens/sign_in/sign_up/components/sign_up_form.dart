@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/app_localizations.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
@@ -42,7 +43,7 @@ class _SignUpFormState extends State<SignUpForm> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('Возникла ошибка', style: TextStyle(
+        title: Text(AppLocalizations.of(context).translate('signUpError'), style: TextStyle(
           fontWeight: FontWeight.bold,
           color: Colors.black,
           height: 1.5,
@@ -50,7 +51,8 @@ class _SignUpFormState extends State<SignUpForm> {
         content: Text(message),
         actions: <Widget>[
           FlatButton(
-            child: Text('Далее', style: TextStyle(color: kPrimaryColor),),
+            child: Text(AppLocalizations.of(context).translate('proceed'),
+              style: TextStyle(color: kPrimaryColor),),
             onPressed: () {
               Navigator.of(ctx).pop();
             },
@@ -74,7 +76,7 @@ class _SignUpFormState extends State<SignUpForm> {
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
-            text: "Продолжить",
+            text: AppLocalizations.of(context).translate('proceed'),
             press: () async{
                 if (_formKey.currentState.validate()) {
                   _formKey.currentState.save();}
@@ -85,7 +87,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       if(value['phone'] == "successfully send message" ){
                       Navigator.pushNamed(context, OtpScreen.routeName);
                   }else{
-                    _showErrorDialog("Попробуйте другой номер.");
+                    _showErrorDialog(AppLocalizations.of(context).translate("tryOtherNum"));
                   }
                 });
             },
@@ -118,8 +120,8 @@ class _SignUpFormState extends State<SignUpForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Повторите пароль",
-        hintText: "Повторите пароль",
+        labelText: AppLocalizations.of(context).translate("confirmPass"),
+        hintText: AppLocalizations.of(context).translate("confirmPass"),
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -151,8 +153,8 @@ class _SignUpFormState extends State<SignUpForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Пароль",
-        hintText: "Введите пароль",
+        labelText: AppLocalizations.of(context).translate("password"),
+        hintText: AppLocalizations.of(context).translate("passwordEnter"),
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -188,8 +190,8 @@ class _SignUpFormState extends State<SignUpForm> {
       maxLength: 9,
       decoration: InputDecoration(
         prefixText: "+996",
-        labelText: "Телефон",
-        hintText: "Введите номер телефона",
+        labelText: AppLocalizations.of(context).translate("phoneNumber"),
+        hintText: AppLocalizations.of(context).translate("phoneEnter"),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Phone.svg"),
       ),

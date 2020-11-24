@@ -46,7 +46,8 @@ class Products with ChangeNotifier {
           textRu: prod['text_ru'],
           measureKy: prod['measure_ky'],
           measureRu: prod['measure_ru'],
-            typeOfPesticides: prod["type_of_pesticides"]?? null
+            typeOfPesticides: prod["type_of_pesticides"]?? null,
+          quantity: 1,
           ),
         );
       });

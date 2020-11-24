@@ -37,4 +37,5 @@ class AppLanguage extends ChangeNotifier {
     }
     notifyListeners();
   }
+
 }

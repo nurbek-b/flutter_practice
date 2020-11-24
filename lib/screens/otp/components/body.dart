@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/app_localizations.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/providers/auth.dart';
 import 'package:shop_app/size_config.dart';
@@ -22,10 +23,10 @@ class Body extends StatelessWidget {
             children: [
               SizedBox(height: SizeConfig.screenHeight * 0.05),
               Text(
-                "Верификация кода",
+                AppLocalizations.of(context).translate("codeVerification"),
                 style: headingStyle,
               ),
-              Text("Мы отправили сообщение на $phone"),
+              Text(AppLocalizations.of(context).translate("weSendMessage") + "$phone"),
               buildTimer(),
               OtpForm(),
               SizedBox(height: SizeConfig.screenHeight * 0.1),
@@ -39,7 +40,7 @@ class Body extends StatelessWidget {
                       passwordConfirm: passwordConfirm);
                 },
                 child: Text(
-                  "Отправить код еще раз",
+                  AppLocalizations.of(context).translate("sendMoreMessage"),
                   style: TextStyle(decoration: TextDecoration.underline),
                 ),
               )
@@ -54,7 +55,7 @@ class Body extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Код просрочиться через "),
+        Text(AppLocalizations.instance.translate('codeExpires')),
         TweenAnimationBuilder(
           tween: Tween(begin: 60.0, end: 0.0),
           duration: Duration(seconds: 60),

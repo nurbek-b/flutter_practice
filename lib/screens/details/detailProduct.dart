@@ -2,13 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_app/Library/carousel_pro/carousel_pro.dart';
+import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/product.dart';
 import 'package:flutter/material.dart';
 
 
 class ProductDetail extends StatefulWidget {
-  Product productItem;
+  final Product productItem;
 
   ProductDetail(this.productItem);
 
@@ -114,7 +116,7 @@ class _ProductDetailState extends State<ProductDetail> {
 
   Widget build(BuildContext context) {
     final formatDecimal = new NumberFormat("###.0#", "en_US");
-//    final cart = Provider.of<Cart>(context, listen: false);
+   final cart = Provider.of<Cart>(context, listen: false);
     return Scaffold(
       key: _key,
       appBar: AppBar(
@@ -385,15 +387,18 @@ class _ProductDetailState extends State<ProductDetail> {
                       icon: Icon(Icons.shopping_basket),
                       color: productItem.addedToCart ? Color(0xFF1B5E20) : Colors.white, iconSize: 25.0,
                       onPressed: (){
-//                        productItem.addedToCart ? cart.removeItem(productItem.id) : cart.addItem(
-//                            productItem.id,
-//                            productItem.title,
-//                            productItem.price,
-//                            productItem.description,
-//                            productItem.measure,
-//                            productItem.quantity,
-//                            productItem.productPhoto);
-//                        setState(() {productItem.addedToCart = !productItem.addedToCart;});
+                       productItem.addedToCart ? cart.removeItem(productItem.id) : cart.addItem(
+                           productItem.id,
+                           productItem.titleRu,
+                           productItem.titleKy,
+                           productItem.price,
+                           productItem.descriptionRu,
+                           productItem.descriptionKy,
+                           productItem.measureRu,
+                           productItem.measureKy,
+                           productItem.quantity,
+                           productItem.productPhoto);
+                       setState(() {productItem.addedToCart = !productItem.addedToCart;});
                       }, )),
               ],
             ),

@@ -11,10 +11,11 @@ class Categories with ChangeNotifier{
   final String titleRu;
   final String growingTechniqueKy;
   final String growingTechniqueRu;
+  final String icon;
   final List<Categories> children;
 
   Categories({this.id, this.parent, this.titleKy,
-    this.titleRu, this.growingTechniqueKy,
+    this.titleRu, this.growingTechniqueKy, this.icon,
     this.growingTechniqueRu, this.children});
 
   factory Categories.fromJson(dynamic json) {
@@ -24,6 +25,7 @@ class Categories with ChangeNotifier{
           titleRu: json['title_ru'],
           growingTechniqueKy: json['growing_technique_ky'],
           growingTechniqueRu: json['growing_technique_ru'],
+          icon: json['icon'],
           parent: json['parent'] == null ? null : json['parent']
       );
   }
@@ -37,29 +39,30 @@ class Categories with ChangeNotifier{
       final categoriesData = json.decode(utf8.decode(response.bodyBytes));
       final List<Categories> loadedCat = [];
       categoriesData?.forEach((cat){
-        if (!cat.containsKey("children")) {
-        } else {
+        if (cat.containsKey("children")) {
           loadedCat.add(Categories(
-            id: cat["id"],
-            titleKy: cat['title_ky'],
-            titleRu: cat['title_ru'],
-            growingTechniqueKy: cat['growing_technique_ky'],
-            growingTechniqueRu: cat['growing_technique_ru'],
-            children: []
-        ));
-        cat['children']?.forEach((subCat){
-          if (subCat == null){
-          } else {loadedCat.last.children.add(Categories(
-              id: subCat['id'],
-              titleKy: subCat['title_ky'],
-              titleRu: subCat['title_ru'],
-              growingTechniqueKy: subCat['growing_technique_ky'],
-              growingTechniqueRu: subCat['growing_technique_ru'],
-          ));
-          }
+              id: cat["id"],
+              titleKy: cat['title_ky'],
+              titleRu: cat['title_ru'],
+              growingTechniqueKy: cat['growing_technique_ky'],
+              growingTechniqueRu: cat['growing_technique_ru'],
+              icon: cat['icon'],
+              children: []));
+              cat['children']?.forEach((subCat){
+                if (subCat == null){
+                } else {loadedCat.last.children.add(Categories(
+                    id: subCat['id'],
+                    titleKy: subCat['title_ky'],
+                    titleRu: subCat['title_ru'],
+                    growingTechniqueKy: subCat['growing_technique_ky'],
+                    growingTechniqueRu: subCat['growing_technique_ru'],
+                    icon: subCat['icon']
+                ),
+                );
+              }
+            });
+          };
         });
-        }
-      });
       _categories = loadedCat;
       notifyListeners();
     } catch (error) {

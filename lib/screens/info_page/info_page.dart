@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/auth.dart';
+import 'package:shop_app/app_localizations.dart';
 import 'package:shop_app/providers/languages.dart';
 import 'package:shop_app/screens/info_page/EditProfilePage.dart';
 import 'package:shop_app/utils/list_profile_section.dart';
@@ -28,9 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    createListItem();
   }
 
   static List<Widget> imageSliders = imgList.map((item) => Container(
@@ -66,8 +65,6 @@ class _ProfilePageState extends State<ProfilePage> {
   )).toList();
 
 
-
-
   Container imageSlider() {
     return Container(
         child: Column(children: <Widget>[
@@ -84,12 +81,6 @@ class _ProfilePageState extends State<ProfilePage> {
         ));
   }
 
-  void createListItem() {
-    listSection.add(createSection("История заказов", "assets/images/ic_payment.png", Color(0xFF1B5E20), null));
-    listSection.add(createSection("Контакты", "assets/images/ic_about_us.png", Color(0xFF1B5E20), null));
-    listSection.add(createSection("Заказы дилера(если дилер)", "assets/images/ic_payment.png", Color(0xFF1B5E20), null));
-  }
-
   createSection(String title, String icon, Color color, Widget widget) {
     return ListProfileSection(title, icon, color, widget);
   }
@@ -104,13 +95,139 @@ class _ProfilePageState extends State<ProfilePage> {
           Utils.getSizedBox(height: 24),
           imageSlider(),
           Utils.getSizedBox(height: 24),
-          buildListView(),
+          /// orders
           Builder(builder: (context) {
             return InkWell(
               splashColor: Colors.teal.shade200,
               onTap: () {
                 Provider.of<Auth>(context, listen: false).logout();
                 setState(() {});
+              },
+              child: Container(
+                padding: EdgeInsets.only(top: 14, left: 24, right: 8, bottom: 14),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      height: 30,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(24)),
+                          color: Color(0xFF1B5E20)),
+                      child: Image(
+                        image: AssetImage("assets/images/ic_payment.png"),
+                        color: Colors.white,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        AppLocalizations.of(context).translate('orderHistory'),
+                        style: CustomTextStyle.textFormFieldMedium,
+                      ),
+                    ),
+                    Spacer(),
+                    Container(
+                      child: Icon(
+                        Icons.keyboard_arrow_right,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
+          /// contact
+          Builder(builder: (context) {
+            return InkWell(
+              splashColor: Colors.teal.shade200,
+              onTap: () {
+                Provider.of<Auth>(context, listen: false).logout();
+                setState(() {});
+              },
+              child: Container(
+                padding: EdgeInsets.only(top: 14, left: 24, right: 8, bottom: 14),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      height: 30,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(24)),
+                          color: Color(0xFF1B5E20)),
+                      child: Image(
+                        image: AssetImage("assets/images/ic_about_us.png"),
+                        color: Colors.white,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        AppLocalizations.of(context).translate('contact'),
+                        style: CustomTextStyle.textFormFieldMedium,
+                      ),
+                    ),
+                    Spacer(),
+                    Container(
+                      child: Icon(
+                        Icons.keyboard_arrow_right,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
+          /// dealers orders
+          Builder(builder: (context) {
+            return InkWell(
+              splashColor: Colors.teal.shade200,
+              onTap: () {
+                Provider.of<Auth>(context, listen: false).logout();
+                setState(() {});
+              },
+              child: Container(
+                padding: EdgeInsets.only(top: 14, left: 24, right: 8, bottom: 14),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      height: 30,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(24)),
+                          color: Color(0xFF1B5E20)),
+                      child: Image(
+                        image: AssetImage("assets/images/ic_payment.png"),
+                        color: Colors.white,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        AppLocalizations.of(context).translate('dillerOrderHistory'),
+                        style: CustomTextStyle.textFormFieldMedium,
+                      ),
+                    ),
+                    Spacer(),
+                    Container(
+                      child: Icon(
+                        Icons.keyboard_arrow_right,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
+          /// logout
+          Builder(builder: (context) {
+            return InkWell(
+              splashColor: Colors.teal.shade200,
+              onTap: () {
+                Provider.of<Auth>(context, listen: false).logout();
+                setState(() {});
+                AlertDialog(
+                  content: Text(AppLocalizations.of(context).translate('youExited'),),
+                );
               },
               child: Container(
                 padding: EdgeInsets.only(top: 14, left: 24, right: 8, bottom: 14),
@@ -129,7 +246,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 8),
                       child: Text(
-                        "Выйти",
+                        AppLocalizations.of(context).translate('logout'),
                         style: CustomTextStyle.textFormFieldMedium,
                       ),
                     ),
@@ -151,10 +268,11 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Container buildHeader() {
+    final language = Provider.of<AppLanguage>(context);
     return Container(
           child: Consumer2<Auth, AppLanguage>(
             builder: (ctx, auth, locale, _) => Row(
-            children: <Widget>[
+              children: <Widget>[
               Utils.getSizedBox(width: 14),
               InkWell(
                 onTap: (){
@@ -166,7 +284,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Column(
+                    /// Enter or change phone number and name
+                    auth.isAuth
+                        ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(auth.name,
@@ -175,29 +295,41 @@ class _ProfilePageState extends State<ProfilePage> {
                               .copyWith(color: Color(0xFF1B5E20), fontSize: 14),
                         ),
                         Utils.getSizedBox(height: 2),
-                        Text(auth.phone == null ?  "Ваш номер телефона" : auth.phone,
+                        Text(auth.phone == null ?  AppLocalizations.instance.translate('phoneNumber') : auth.phone,
                           style: CustomTextStyle.textFormFieldMedium
                               .copyWith(color: Color(0xFF1B5E20), fontSize: 12),
                         ),
                       ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Icon(
-                        Icons.keyboard_arrow_right,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    SizedBox(width: 50.0,),
+                    )
+                        : SizedBox(),
+                    auth.isAuth
+                        ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Icon(
+                            Icons.keyboard_arrow_right,
+                            color: Colors.grey,
+                          ),
+                        )
+                        : SizedBox(),
+                    SizedBox(width: 60.0,),
+                    /// Language change config
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: DropdownButton(
                         icon: Icon(Icons.language, color: Color(0xFF1B5E20),),
                         items: [
-                          DropdownMenuItem( value: Locale( 'ky' ),
-                            child: Text( 'Кыргыз'),),
-                          DropdownMenuItem( value: Locale( 'ru' ),
-                              child: Text( 'Русский' )),
+                          DropdownMenuItem(
+                            onTap: (){
+                              language.changeLanguage(Locale("ky"));
+                            },
+                            value: Locale( 'ky' ),
+                            child: Text( 'кыргызча'),),
+                          DropdownMenuItem(
+                              onTap: (){
+                                language.changeLanguage(Locale("ru"));
+                              },
+                              value: Locale( 'ru' ),
+                              child: Text( 'русский' )),
                         ],
                         onChanged: (v) => setState(() { locale.changeLanguage( v );}),
                         value: locale.appLocal,
@@ -212,59 +344,4 @@ class _ProfilePageState extends State<ProfilePage> {
         );
       }
 
-  ListView buildListView() {
-    return ListView.builder(
-      shrinkWrap: true,
-      primary: false,
-      itemBuilder: (context, index) {
-        return createListViewItem(listSection[index]);
-      },
-      itemCount: listSection.length,
-    );
-  }
-
-  createListViewItem(ListProfileSection listSection) {
-    return Builder(builder: (context) {
-      return InkWell(
-        splashColor: Colors.teal.shade200,
-        onTap: () {
-          if (listSection.widget != null) {
-            Navigator.of(context).push(new MaterialPageRoute(
-                builder: (context) => listSection.widget));
-          }
-        },
-        child: Container(
-          padding: EdgeInsets.only(top: 14, left: 24, right: 8, bottom: 14),
-          child: Row(
-            children: <Widget>[
-              Container(
-                height: 30,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(24)),
-                    color: listSection.color),
-                child: Image(
-                  image: AssetImage(listSection.icon),
-                  color: Colors.white,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
-                  listSection.title,
-                  style: CustomTextStyle.textFormFieldMedium,
-                ),
-              ),
-              Spacer(),
-              Container(
-                child: Icon(
-                  Icons.keyboard_arrow_right,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    });
-  }
 }

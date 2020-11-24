@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/app_localizations.dart';
 import 'package:shop_app/components/socal_card.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/size_config.dart';
@@ -18,13 +19,13 @@ class Body extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
-                Text("Регистрация", style: headingStyle),
+                Text(AppLocalizations.of(context).translate('registration'), style: headingStyle),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 SignUpForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 SizedBox(height: getProportionateScreenHeight(20)),
                 Text(
-                  'Продолжая использовать сайт вы соглошаетесь с этим. \nнашими условиями.',
+                    AppLocalizations.of(context).translate("ourConditions"),
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.caption,
                 )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/app_localizations.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/providers/product.dart';
 import 'package:shop_app/size_config.dart';
@@ -41,7 +42,7 @@ class Body extends StatelessWidget {
                           top: getProportionateScreenWidth(15),
                         ),
                         child: DefaultButton(
-                          text: "Add To Cart",
+                          text: AppLocalizations.of(context).translate("addToCart"),
                           press: () {},
                         ),
                       ),

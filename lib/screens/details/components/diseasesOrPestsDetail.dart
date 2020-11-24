@@ -1,9 +1,12 @@
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_app/Library/carousel_pro/carousel_pro.dart';
+import 'package:shop_app/app_localizations.dart';
 import 'package:shop_app/providers/diseasesPests.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_app/providers/languages.dart';
 
 
 class DiseaseOrPestItemDetail extends StatefulWidget {
@@ -48,30 +51,17 @@ class _DiseaseOrPestItemDetailState extends State<DiseaseOrPestItemDetail> {
       wordSpacing: 0.5);
 
   Widget build(BuildContext context) {
+    var appLanguage = Provider.of<AppLanguage>(context);
     return Scaffold(
       key: _key,
       appBar: AppBar(
-        actions: <Widget>[
-          InkWell(
-            onTap: () {},
-            child: Stack(
-              alignment: AlignmentDirectional(-1.0, -0.8),
-              children: <Widget>[
-                IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                      CupertinoIcons.heart,
-                      color: Colors.black26,
-                    )),
-              ],
-            ),
-          ),
-        ],
         elevation: 0.5,
         centerTitle: true,
         backgroundColor: Colors.white,
-        title: Text(
-          item.titleRu,
+        // ignore: unrelated_type_equality_checks
+        title: Text( appLanguage == "ky"
+          ? item.titleRu
+          : item.titleKy,
           style: TextStyle(
             fontWeight: FontWeight.w500,
             color: Colors.black54,
@@ -153,7 +143,7 @@ class _DiseaseOrPestItemDetailState extends State<DiseaseOrPestItemDetail> {
                             Padding(
                               padding: const EdgeInsets.only(left: 20.0),
                               child: Text(
-                                "Описание: ",
+                                AppLocalizations.of(context).translate('disease_description'),
                                 style: _subHeaderCustomStyle,
                               ),
                             ),
@@ -163,15 +153,17 @@ class _DiseaseOrPestItemDetailState extends State<DiseaseOrPestItemDetail> {
                                   right: 20.0,
                                   bottom: 10.0,
                                   left: 20.0),
-                              child: Html(data: item.descriptionRu),
+                              // ignore: unrelated_type_equality_checks
+                              child: appLanguage == "ky"
+                                ? Html(data: item.descriptionRu)
+                                : Html(data: item.descriptionKy),
                             ),
                             SizedBox(height: 20.0,),
-
                             /// Характеристики продукта
                             Padding(
                               padding: const EdgeInsets.only(left: 20.0),
                               child: Text(
-                                "Характеристики: ",
+                                AppLocalizations.of(context).translate('disease_char'),
                                 style: _subHeaderCustomStyle,
                               ),
                             ),
@@ -180,7 +172,10 @@ class _DiseaseOrPestItemDetailState extends State<DiseaseOrPestItemDetail> {
                                   right: 15.0,
                                   bottom: 10.0,
                                   left: 15.0),
-                              child: Html(data: item.descriptionRu),
+                              // ignore: unrelated_type_equality_checks
+                              child: appLanguage == "ky"
+                                ? Html(data: item.descriptionRu)
+                                : Html(data: item.descriptionKy),
                             ),
                           ],
                         ),

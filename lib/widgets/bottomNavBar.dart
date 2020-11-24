@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shop_app/screens/Categories/categories.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/providers/cart.dart';
+import 'package:shop_app/screens/cart/cart_screen.dart';
 import 'package:shop_app/screens/home/home.dart';
 import 'package:shop_app/screens/info_page/info_page.dart';
+import 'package:shop_app/widgets/badge.dart';
 import 'package:shop_app/widgets/nestedNavigator.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -27,14 +30,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     },
     children: <Widget>[
       HomePage(),
-      CategoriesScreen(),
-      Container(
-        child: Center(
-          child: Text(
-            'Favourites',
-          ),
-        ),
-      ),
+      CartScreen(),
       ProfilePage(),
     ],
   );
@@ -62,14 +58,21 @@ class _BottomNavBarState extends State<BottomNavBar> {
         },
         items: [
           BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.home, size: 23.0),
+              icon: Icon(CupertinoIcons.home, size: 28.0),
               title: Container()),
           BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.collections), title: Container()),
+              icon: Consumer<Cart>(
+                builder: (_, cart, ch){
+                  return Badge(child: ch, value: cart.itemCount.toString());},
+                child: IconButton(
+                  icon: Icon(CupertinoIcons.shopping_cart,
+                  size: 28.0,
+                  color: _indexBar == 1
+                    ? Color(0xFF1B5E20)
+                    : Colors.blueGrey))),
+                title: Container()),
           BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.heart), title: Container()),
-          BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.profile_circled, size: 24.0),
+              icon: Icon(CupertinoIcons.profile_circled, size: 28.0),
               title: Container()),
         ],
       ),

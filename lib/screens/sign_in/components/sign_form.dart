@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/app_localizations.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/form_error.dart';
 import 'package:shop_app/main.dart';
@@ -25,7 +26,6 @@ class _SignFormState extends State<SignForm> {
   String password;
   bool remember = false;
   final List<String> errors = [];
-  int _radioValue = 0;
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -45,7 +45,8 @@ class _SignFormState extends State<SignForm> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('Возникла ошибка', style: TextStyle(
+        title: Text(AppLocalizations.of(context).translate('signUpError'),
+            style: TextStyle(
           fontWeight: FontWeight.bold,
           color: Colors.black,
           height: 1.5,
@@ -53,7 +54,8 @@ class _SignFormState extends State<SignForm> {
         content: Text(message),
         actions: <Widget>[
           FlatButton(
-            child: Text('Далее', style: TextStyle(color: kPrimaryColor),),
+            child: Text(AppLocalizations.of(context).translate('proceed'),
+              style: TextStyle(color: kPrimaryColor),),
             onPressed: () {
               Navigator.of(ctx).pop();
             },
@@ -77,14 +79,14 @@ class _SignFormState extends State<SignForm> {
             onTap: () => Navigator.pushNamed(
                 context, ForgotPasswordScreen.routeName),
             child: Text(
-              "Забыл пароль",
+              AppLocalizations.of(context).translate("forgetPass"),
               style: TextStyle(decoration: TextDecoration.underline),
             ),
           ),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
           DefaultButton(
-            text: "Продолжить",
+            text: AppLocalizations.of(context).translate('proceed'),
             press: ()async {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
@@ -97,7 +99,7 @@ class _SignFormState extends State<SignForm> {
                       MaterialPageRoute(builder: (context) => BottomNavBar()),
                     );
                   }else{
-                    _showErrorDialog("Пользователя с таким номером нет.");
+                    _showErrorDialog(AppLocalizations.of(context).translate("noUserWithNum"),);
                   }
                 });
               }
@@ -131,8 +133,8 @@ class _SignFormState extends State<SignForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Пароль",
-        hintText: "Введите пароль",
+        labelText: AppLocalizations.of(context).translate("password"),
+        hintText: AppLocalizations.of(context).translate("passwordEnter"),
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -166,8 +168,8 @@ class _SignFormState extends State<SignForm> {
       maxLength: 9,
       decoration: InputDecoration(
         prefixText: "+996",
-        labelText: "Номер телефона",
-        hintText: "Введите номер телефона",
+        labelText: AppLocalizations.of(context).translate("phoneNumber"),
+        hintText: AppLocalizations.of(context).translate("phoneEnter"),
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,

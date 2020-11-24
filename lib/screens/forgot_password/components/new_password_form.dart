@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/app_localizations.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
@@ -51,7 +52,7 @@ class _PasswordResetFormState extends State<PasswordResetForm> {
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
-            text: "Продолжить",
+            text: AppLocalizations.of(context).translate('proceed'),
             press: () async{
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
@@ -96,8 +97,8 @@ class _PasswordResetFormState extends State<PasswordResetForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Потдвердить пароль",
-        hintText: "Повторите пароль",
+        labelText: AppLocalizations.of(context).translate('confirmPass'),
+        hintText: AppLocalizations.of(context).translate('repeatPass'),
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -129,8 +130,8 @@ class _PasswordResetFormState extends State<PasswordResetForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Пароль",
-        hintText: "Введите пароль",
+        labelText: AppLocalizations.of(context).translate('password'),
+        hintText: AppLocalizations.of(context).translate('passwordEnter'),
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,

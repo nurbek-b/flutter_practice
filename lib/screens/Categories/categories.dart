@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/app_localizations.dart';
 import 'package:shop_app/providers/categories.dart';
 import 'package:shop_app/providers/diseasesPests.dart';
+import 'package:shop_app/providers/languages.dart';
 import 'package:shop_app/providers/product.dart';
 import 'package:shop_app/providers/products.dart';
 import 'package:shop_app/screens/Categories/catGrowingTechnique.dart';
 import 'package:shop_app/screens/Categories/diseasesOrPestsItemView.dart';
 import 'package:shop_app/screens/Categories/groupedProducts.dart';
 import 'package:shop_app/screens/Categories/pesticidesTypes.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 
 class CategoriesScreen extends StatefulWidget {
   static String routeName = "/allCategories";
@@ -34,71 +38,88 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     final categories = Provider.of<Categories>(context).categories;
-//    final productsData = Provider.of<Products>(context).items;
+    final appLanguage = Provider.of<AppLanguage>(context).appLocal;
     return Material(
       child: Padding(
-        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 25.0),
+        padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 5.0,),
+            SizedBox(height: 45.0,),
             Text(
-              "Все категории",
+              AppLocalizations.of(context).translate('all_category'),
               style: Theme.of(context)
                   .textTheme
                   .display1
-                  .copyWith(fontWeight: FontWeight.bold, color: Color(0xFF1B5E20)),
+                  .copyWith(
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1B5E20)),
             ),
+            Divider(color: Colors.black),
             Expanded(
               child: Row(
                 children: <Widget>[
-                  Container(
-                    width: 50,
-                    margin: const EdgeInsets.only(right: 15),
-                    child: ListView.builder(
-                      itemCount: categories.length,
-                      itemBuilder: (ctx, i) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selectedCat = i;
-                            });
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(bottom: 25.0),
-                            // padding: const EdgeInsets.symmetric(vertical: 45.0),
-                            width: 50,
-                            constraints: BoxConstraints(minHeight: 101),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              border: _selectedCat == i ? Border.all() : Border(),
-                              color: _selectedCat == i
-                                  ? Colors.transparent
-                                  : Color(0xFF1B5E20),
-                              borderRadius: BorderRadius.circular(9.0),
-                            ),
-                            // child: Transform.rotate(
-                            //   angle: -pi / 2,
-                            child: RotatedBox(
-                              quarterTurns: -1,
-                              child: Text(
-                                "${categories[i].titleRu}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .button
-                                    .copyWith(
-                                    color: _selectedCat == i
-                                        ? Color(0xFF1B5E20)
-                                        : Colors.white),
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      width: 70,
+                      margin: const EdgeInsets.only(right: 15),
+                      child: ListView.builder(
+                        itemCount: categories.length,
+                        itemBuilder: (ctx, i) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedCat = i;
+                              });
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(bottom: 25.0),
+                              padding: const EdgeInsets.symmetric(vertical: 15.0),
+                              width: 50,
+                              constraints: BoxConstraints(minHeight: 70),
+                              alignment: Alignment.bottomCenter,
+                              decoration: BoxDecoration(
+                                border: _selectedCat == i ? Border.all(color: Color(0xFF1B5E20)) : Border(),
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              child: Column(
+                                children: [
+                                  Container(child: SvgPicture.network(categories[i].icon, height: 30.0, ),),
+                                  Container(
+                                    // child: Transform.rotate(
+                                    //   angle: -pi / 2,
+                                    child: Center(
+                                      child: appLanguage.toString() == "ru"
+                                      ? Text(
+                                        "${categories[i].titleRu}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .button
+                                            .copyWith(
+                                            color: _selectedCat == i ? Color(0xFF1B5E20) : Colors.black54),
+                                      )
+                                      : Text(
+                                        "${categories[i].titleKy}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .button
+                                            .copyWith(
+                                            color: _selectedCat == i ? Color(0xFF1B5E20) : Colors.black54),
+                                        ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                   ),
                   Expanded(
-                    flex: 4,
+                    flex: 8,
                     child: Container(
                       /// List of middleCategory
                       child: categories.length == 0
@@ -110,7 +131,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           return Container(
                             padding: const EdgeInsets.all(9.0),
                             decoration: BoxDecoration(
-                              color: Colors.white,
                             ),
                             child: ListTileTheme(
                               iconColor: Color(0xFF00AB50),
@@ -129,11 +149,19 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                     selected = -1;
                                   });
                                 }),
-                                title: Text(
-                                  "${categories[_selectedCat].children[index].titleRu}",
+                                leading: Container(child: SvgPicture.network(categories[_selectedCat].children[index].icon, height: 20.0,)),
+                                title: appLanguage.toString() == "ru"
+                                ? Text(
+                                  "${categories[_selectedCat].children[index].titleRu.toUpperCase()}",
                                   style: TextStyle(
                                     fontFamily: "Gotik",
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,),)
+                                : Text(
+                                  "${categories[_selectedCat].children[index].titleKy.toUpperCase()}",
+                                  style: TextStyle(
+                                    fontFamily: "Gotik",
+                                    fontWeight: FontWeight.bold,
                                     color: Colors.black,),),
                                 /// List of miniCategory
                                 children: <Widget>[
@@ -141,7 +169,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ///Технология выращивания продукта
                                   Container(child: GestureDetector(
                                       child: ListTile(
-                                        leading: Text("   Технология выращивания",
+                                        leading: Text(AppLocalizations.of(context).translate('growing_tech'),
                                           style: TextStyle(
                                             fontFamily: "Gotik",
                                             fontWeight: FontWeight.w400,),),
@@ -150,8 +178,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) => GrowingTech(
-                                                    title: "Технология выращивания: ${categories[_selectedCat].children[index].titleRu}",
-                                                    desc: categories[_selectedCat].children[index].growingTechniqueRu),
+                                                    // ignore: unrelated_type_equality_checks
+                                                    title: appLanguage.toString() == "ru"
+                                                    ? "Технология выращивания: ${categories[_selectedCat].children[index].titleRu}"
+                                                    : "${categories[_selectedCat].children[index].titleKy} - Өстүүрүү технологиясы",
+                                                    // ignore: unrelated_type_equality_checks
+                                                    desc: appLanguage == "ky"
+                                                    ? categories[_selectedCat].children[index].growingTechniqueRu
+                                                    : categories[_selectedCat].children[index].growingTechniqueKy),
                                               ));
                                         },
                                       ),
@@ -161,7 +195,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   /// Вредители продукта
                                   Container(child: GestureDetector(
                                       child: ListTile(
-                                        leading: Text("   Вредители",
+                                        leading: Text(AppLocalizations.of(context).translate('pests'),
                                           style: TextStyle(
                                             fontFamily: "Gotik",
                                             fontWeight: FontWeight.w400,),),
@@ -173,7 +207,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) => DiseasListByGroup(
-                                                    title: "Вредители: ${categories[_selectedCat].children[index].titleRu}",
+                                                    title: appLanguage.toString() == "ru"
+                                                        ? "Вредители: ${categories[_selectedCat].children[index].titleRu}"
+                                                        : "${categories[_selectedCat].children[index].titleKy} - Зыянкечтери",
                                                     items: pests),
                                               ));
                                         },
@@ -183,7 +219,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   Divider(),
                                   Container(child: GestureDetector(
                                       child: ListTile(
-                                        leading: Text("   Болезни",
+                                        leading: Text(AppLocalizations.of(context).translate('diseases'),
                                           style: TextStyle(
                                             fontFamily: "Gotik",
                                             fontWeight: FontWeight.w400,),),
@@ -195,7 +231,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) => DiseasListByGroup(
-                                                    title: "Болезни: ${categories[_selectedCat].children[index].titleRu}",
+                                                    title: appLanguage.toString() == "ru"
+                                                    ? "Болезни: ${categories[_selectedCat].children[index].titleRu}"
+                                                    : "${categories[_selectedCat].children[index].titleKy} - Оруулары",
                                                     items: disease),
                                               ));
 
@@ -206,7 +244,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   Divider(),
                                   Container(child: GestureDetector(
                                       child: ListTile(
-                                        leading: Text("   Семена",
+                                        leading: Text(AppLocalizations.of(context).translate("seeds"),
                                           style: TextStyle(
                                             fontFamily: "Gotik",
                                             fontWeight: FontWeight.w400,),),
@@ -218,7 +256,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) => ListByGroup(
-                                                    title: "Семена: ${categories[_selectedCat].children[index].titleRu}",
+                                                    title: appLanguage.toString() == "ru"
+                                                        ? "Семена: ${categories[_selectedCat].children[index].titleRu}"
+                                                        : "${categories[_selectedCat].children[index].titleKy} - Уруктары",
                                                     items: seeds),
                                               ));
                                         },
@@ -228,7 +268,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   Divider(),
                                   Container(child: GestureDetector(
                                       child: ListTile(
-                                        leading: Text("   Удобрение",
+                                        leading: Text(AppLocalizations.of(context).translate("fertilizers"),
                                           style: TextStyle(
                                             fontFamily: "Gotik",
                                             fontWeight: FontWeight.w400,),),
@@ -240,7 +280,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) => ListByGroup(
-                                                    title: "Удобрение: ${categories[_selectedCat].children[index].titleRu}",
+                                                    // ignore: unrelated_type_equality_checks
+                                                    title: appLanguage.toString() == "ru"
+                                                        ? "Удобрение: ${categories[_selectedCat].children[index].titleRu}"
+                                                        : "${categories[_selectedCat].children[index].titleKy} - Жэр семирткичтери",
                                                     items: fertilizers),
                                               ));
                                         },
@@ -250,7 +293,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   Divider(),
                                   Container(child: GestureDetector(
                                       child: ListTile(
-                                        leading: Text("   Пестициды",
+                                        leading: Text(AppLocalizations.of(context).translate("pesticides"),
                                           style: TextStyle(
                                             fontFamily: "Gotik",
                                             fontWeight: FontWeight.w400,),),
@@ -261,10 +304,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => Catalogue(
-                                                  title: "Пестициды: ${categories[_selectedCat].children[index].titleRu}",
+                                                builder: (context) => PesticidesView(
+                                                  // ignore: unrelated_type_equality_checks
+                                                  title: appLanguage.toString() == "ru"
+                                                      ? "Пестициды: ${categories[_selectedCat].children[index].titleRu}"
+                                                      : "${categories[_selectedCat].children[index].titleKy} - Пестицидтери",
                                                   products: pesticides),
-                                              ));
+                                              ),
+                                          );
                                         },
                                       ),
                                     ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/app_localizations.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
@@ -24,7 +25,7 @@ class Body extends StatelessWidget {
             children: [
               SizedBox(height: SizeConfig.screenHeight * 0.04),
               Text(
-                "Забыл пароль",
+                AppLocalizations.of(context).translate('forgetPass'),
                 style: TextStyle(
                   fontSize: getProportionateScreenWidth(28),
                   color: Colors.black,
@@ -32,7 +33,7 @@ class Body extends StatelessWidget {
                 ),
               ),
               Text(
-                "Пожалуйства введите номер вашего телефона \nмы отправим код для активации",
+                AppLocalizations.of(context).translate('sendOtpForgetPass'),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: SizeConfig.screenHeight * 0.1),
@@ -99,8 +100,8 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
             maxLength: 9,
             decoration: InputDecoration(
               prefixText: "+996",
-              labelText: "Номер телефона",
-              hintText: "Введите ваш номер телефона",
+              labelText: AppLocalizations.of(context).translate('phoneNumber'),
+              hintText: AppLocalizations.of(context).translate('phoneEnter'),
               // If  you are using latest version of flutter then lable text and hint text shown like this
               // if you r using flutter less then 1.20.* then maybe this is not working properly
               floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -111,7 +112,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
           FormError(errors: errors),
           SizedBox(height: SizeConfig.screenHeight * 0.1),
           DefaultButton(
-            text: "Продолжить",
+            text: AppLocalizations.of(context).translate('proceed'),
             press: ()async{
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();

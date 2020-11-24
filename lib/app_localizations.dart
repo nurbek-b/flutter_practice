@@ -1,62 +1,90 @@
-import 'dart:async';
 import 'dart:convert';
-
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppLocalizations {
-  final Locale locale;
-
   AppLocalizations(this.locale);
+  final Locale fallbackLocale = Locale('ky');
 
-  // Helper method to keep the code in the widgets concise
-  // Localizations are accessed using an InheritedWidget "of" syntax
   static AppLocalizations of(BuildContext context) {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  // Static member to have a simple access to the delegate from the MaterialApp
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-  _AppLocalizationsDelegate();
+  static AppLocalizations instance;
 
-  Map<String, String> _localizedStrings;
-
-  Future<bool> load() async {
-    // Load the language JSON file from the "lang" folder
-    String jsonString =
-    await rootBundle.loadString('assets/i18n/${locale.languageCode}.json');
-    Map<String, dynamic> jsonMap = json.decode(jsonString);
-
-    _localizedStrings = jsonMap.map((key, value) {
-      return MapEntry(key, value.toString());
-    });
-    return true;
+  AppLocalizations._init(Locale locale) {
+    instance = this;
+    this.locale = locale;
   }
 
-  // This method will be called from every widget which needs a localized text
-  String translate(String key) {
-    return _localizedStrings[key];
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+
+  Locale locale;
+  Map<String, String> _localizedStrings;
+  Map<String, String> _fallbackLocalizedStrings;
+
+  Future<void> load() async {
+    _localizedStrings = await _loadLocalizedStrings(locale);
+    _fallbackLocalizedStrings = {};
+
+    if (locale != fallbackLocale) {
+      _fallbackLocalizedStrings = await _loadLocalizedStrings(fallbackLocale);
+    }
+  }
+
+  Future<Map<String, String>> _loadLocalizedStrings(Locale localeToBeLoaded) async {
+    String jsonString;
+    Map<String, String> localizedStrings = {};
+
+    try {
+      jsonString = await rootBundle.loadString('assets/i18n/${localeToBeLoaded.languageCode}.json');
+    } catch (exception) {
+      print(exception);
+      return localizedStrings;
+    }
+
+    Map<String, dynamic> jsonMap = json.decode(jsonString);
+
+    localizedStrings = jsonMap.map((key, value) {
+      return MapEntry(key, value.toString());
+    });
+
+    return localizedStrings;
+  }
+
+  String translate(String key, [Map<String, String> arguments]) {
+    String translation = _localizedStrings[key];
+    translation = translation ?? _fallbackLocalizedStrings[key];
+    translation = translation ?? "";
+
+    if (arguments == null || arguments.length == 0) {
+      return translation;
+    }
+
+    arguments.forEach((argumentKey, value) {
+      if (value == null) {
+        print('Value for "$argumentKey" is null in call of translate(\'$key\')');
+        value = '';
+      }
+      translation = translation.replaceAll("\$$argumentKey", value);
+    });
+
+    return translation;
   }
 }
 
-// LocalizationsDelegate is a factory for a set of localized resources
-// In this case, the localized strings will be gotten in an AppLocalizations object
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
-  // This delegate instance will never change (it doesn't even have fields!)
-  // It can provide a constant constructor.
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
   bool isSupported(Locale locale) {
-    // Include all of your supported language codes here
-    return ['ru', 'ky'].contains(locale.languageCode);
+    return true;
   }
 
   @override
   Future<AppLocalizations> load(Locale locale) async {
-    // AppLocalizations class is where the JSON loading actually runs
-    AppLocalizations localizations = new AppLocalizations(locale);
+    AppLocalizations localizations = AppLocalizations._init(locale);
     await localizations.load();
     return localizations;
   }

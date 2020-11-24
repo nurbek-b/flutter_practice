@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/product.dart';
 import 'package:shop_app/screens/details/detailProduct.dart';
 
@@ -19,9 +21,7 @@ class DiseasesPests extends StatefulWidget {
 class _DiseasesPestsState extends State<DiseasesPests> {
   @override
   Widget build(BuildContext context) {
-    final formatDecimal = new NumberFormat("###.0#", "en_US");
-//    final cart = Provider.of<Cart>(context, listen: false);
-//    final favorites = Provider.of<Favorites>(context, listen: true);
+   final cart = Provider.of<Cart>(context, listen: false);
     return  Scaffold(
       appBar: AppBar(
         title: Text(widget.title,
@@ -121,26 +121,6 @@ class _DiseasesPestsState extends State<DiseasesPests> {
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],
-                            ),
-                          ),
-                          /// add to favourite iconButton
-                          Expanded(
-                            flex: 2,
-                            child: Align(
-                              alignment: Alignment.topCenter,
-//                              child: IconButton(
-//                                highlightColor: Colors.transparent,
-//                                splashColor: Colors.transparent,
-//                                onPressed: (){
-//                                  setState(() {
-////                                    favorites.toggleItem(widget.items[ind].id);
-//                                  });
-//                                },
-////                                icon: Icon(favorites.isFavorite(widget.items[ind].id)
-////                                    ? CupertinoIcons.heart_solid
-////                                    : CupertinoIcons.heart),
-//                                color: Color(0xFF00AB50),
-//                                iconSize: 25.0,),
                             ),
                           ),
                         ]),
@@ -261,33 +241,27 @@ class _DiseasesPestsState extends State<DiseasesPests> {
                               : Colors.white,
                           iconSize: 20.0,
                           onPressed: () async {
-//                            widget.items[ind].addedToCart
-//                                ? cart.removeItem(widget.items[ind].id)
-//                                : cart.addItem(
-//                                widget.items[ind].id,
-//                                widget.items[ind]
-//                                    .title,
-//                                widget.items[ind]
-//                                    .price,
-//                                widget.items[ind]
-//                                    .description,
-//                                widget.items[ind]
-//                                    .measure,
-//                                widget.items[ind]
-//                                    .quantity,
-//                                widget.items[ind]
-//                                    .measureStep,
-//                                widget.items[ind]
-//                                    .imageUrl);
-//                            setState(() {
-//                              widget.items[ind].addedToCart = !widget.items[ind].addedToCart;
-//                            });
+                           widget.items[ind].addedToCart
+                               ? cart.removeItem(widget.items[ind].id)
+                               : cart.addItem(
+                               widget.items[ind].id,
+                               widget.items[ind].titleRu,
+                               widget.items[ind].titleKy,
+                               widget.items[ind].price,
+                               widget.items[ind].descriptionRu,
+                               widget.items[ind].descriptionKy,
+                               widget.items[ind].measureRu,
+                               widget.items[ind].measureKy,
+                               widget.items[ind].quantity,
+                               widget.items[ind].productPhoto);
+                           setState(() {
+                             widget.items[ind].addedToCart = !widget.items[ind].addedToCart;
+                           });
                           },
                         ),
                       ),
                     ],
                   ),
-
                   /// Icons add to favourites
                 ),
               ),

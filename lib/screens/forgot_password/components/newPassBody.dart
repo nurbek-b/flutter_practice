@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/app_localizations.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/screens/forgot_password/components/new_password_form.dart';
 import 'package:shop_app/size_config.dart';
@@ -16,7 +17,7 @@ class NewPassBody extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
-                Text("Новый пароль", style: headingStyle),
+                Text(AppLocalizations.of(context).translate("newPass"), style: headingStyle),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 PasswordResetForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),

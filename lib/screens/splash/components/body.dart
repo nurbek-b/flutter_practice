@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/app_localizations.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shop_app/size_config.dart';
@@ -20,8 +21,7 @@ class _BodyState extends State<Body> {
       "image": "assets/images/image-1.jpeg"
     },
     {
-      "text":
-          "Мы помогаем фермерам \nпо всему Кыргызстану",
+      "text": "Мы помогаем фермерам \nпо всему Кыргызстану",
       "image": "assets/images/image-2.jpeg"
     },
     {
@@ -68,7 +68,7 @@ class _BodyState extends State<Body> {
                     ),
                     Spacer(flex: 3),
                     DefaultButton(
-                      text: "Продолжить",
+                      text: AppLocalizations.of(context).translate('continue'),
                       press: () {
                         Navigator.pushNamed(context, SignInScreen.routeName);
                       },

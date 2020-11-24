@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shop_app/providers/cart.dart';
 import 'package:suspense/suspense.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -51,6 +52,7 @@ class _MyAppState extends State<MyApp> {
         providers: [
           ChangeNotifierProvider.value(value: AppLanguage()),
           ChangeNotifierProvider.value(value: Auth()),
+          ChangeNotifierProvider.value(value: Cart()),
           ChangeNotifierProvider.value(value: Products()),
           ChangeNotifierProvider.value(value: Diseases()),
           ChangeNotifierProvider.value(value: Categories()),

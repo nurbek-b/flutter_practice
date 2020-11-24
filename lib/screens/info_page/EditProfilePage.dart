@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/app_localizations.dart';
 import 'package:shop_app/providers/auth.dart';
+import 'package:shop_app/screens/info_page/info_page.dart';
 import 'package:shop_app/utils/CustomTextStyle.dart';
 
 
@@ -11,11 +13,13 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  final _formKey = GlobalKey<FormState>();
+  String name;
   TextEditingController _controller = new TextEditingController();
 
   @override
   void initState(){
-    _controller.text = Provider.of<Auth>(context, listen: false).name;
+    name = Provider.of<Auth>(context, listen: false).name;
     super.initState();
   }
 
@@ -32,15 +36,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfilePage()),
+              );
             }),
         title: Text(
-          "Редактировать профиль",
+            AppLocalizations.of(context).translate("editProfile"),
           style: CustomTextStyle.textFormFieldBlack.copyWith(
               color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Container(
+      body: Form(
+        key: _formKey,
         child: Column(
           children: <Widget>[
             SizedBox(
@@ -53,10 +61,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(12),
                   border: border,
-                  hintText: "Ваше имя",
+                  hintText: AppLocalizations.of(context).translate("yourName"),
                   focusedBorder: border.copyWith(
                       borderSide: BorderSide(color: Color(0xFF1B5E20))),
                 ),
+                onSaved: (value) =>name = value,
               ),
               margin: EdgeInsets.only(left: 12, right: 12, top: 24),
             ),
@@ -74,10 +83,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   color: Color(0xFF1B5E20),
                   textColor: Colors.white,
                   onPressed: () {
-                    // auth.name(_controller.text);
+                    _formKey.currentState.save();
+                    auth.name = name;
                   },
                   child: Text(
-                    "Сохранить",
+                    AppLocalizations.of(context).translate("save"),
                     style: CustomTextStyle.textFormFieldBlack
                         .copyWith(color: Colors.white, fontSize: 16),
                   ),

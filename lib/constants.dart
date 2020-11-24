@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/app_localizations.dart';
 import 'package:shop_app/size_config.dart';
 
 const kPrimaryColor = Color(0xFF1B5E20);
@@ -25,14 +26,14 @@ const defaultDuration = Duration(milliseconds: 250);
 /// Regular Expresion for phone number
 final RegExp phoneValidatorRegExp =
     RegExp(r'[0-9]{9}');
-const String kPhoneNullError = "Введите номер телефона";
-const String kInvalidPhoneError = "Введите валидный номер";
-const String kPassNullError = "Введите пароль";
-const String kShortPassError = "Пароль слишком короткий";
-const String kMatchPassError = "Пароли не совпадают";
-const String kNameNullError = "Введите имя";
-const String kPhoneNumberNullError = "Введите номер телефона";
-const String kAddressNullError = "Введите адрес";
+final String kPhoneNullError = AppLocalizations.instance.translate("phoneEnter");
+final String kInvalidPhoneError = AppLocalizations.instance.translate("enterValidNumber");
+final String kPassNullError = AppLocalizations.instance.translate("passwordEnter");
+final String kShortPassError = AppLocalizations.instance.translate("passwordTooShort");
+final String kMatchPassError = AppLocalizations.instance.translate("passwordDismatch");
+final String kNameNullError = AppLocalizations.instance.translate("passwordDismatch");
+final String kPhoneNumberNullError = AppLocalizations.instance.translate("phoneEnter");
+final String kAddressNullError = AppLocalizations.instance.translate("enterAddress");
 
 final otpInputDecoration = InputDecoration(
   contentPadding:

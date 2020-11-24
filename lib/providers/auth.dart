@@ -13,6 +13,7 @@ class Auth with ChangeNotifier{
   String _name;
   String _phone;
   String _password;
+  String _userType;
   bool isEditing = false;
 
   Auth(){
@@ -29,9 +30,12 @@ class Auth with ChangeNotifier{
 
   bool get isAuth =>this._access != null;
 
-  String get name => this._name ?? "Ваше имя";
+  String get userType => this._userType;
 
-  set name(String value) {
+  String get name => this._name ?? "";
+
+  set name(String value){
+
     _name = value;
   }
 
@@ -61,14 +65,12 @@ class Auth with ChangeNotifier{
         headers: { "Content-Type": "application/json; charset=UTF-8"},
       );
       final responseData = jsonDecode(res.body);
-      print("THIS IS FROM REGISTER");
       print(responseData);
       await storage.write(key: "phone", value: phone);
       await storage.write(key: "password", value: password);
       await storage.write(key: "passwordConfirm", value: passwordConfirm);
       return responseData;
     }catch (error){
-      print(error);
       throw error;
     }
   }
@@ -85,18 +87,13 @@ class Auth with ChangeNotifier{
           "user_type": "customer"}),
         headers: { "Content-Type": "application/json; charset=UTF-8"},);
       final responseData = jsonDecode(res.body);
-      print("FIRST RESPONSE $responseData}");
       await storage.write(key: "phone", value: phone);
       await storage.write(key: "password", value: password);
       await storage.write(key: "userType", value: userType);
       await storage.write(key: "access", value: responseData['access']);
       await storage.write(key: "refresh", value: responseData['refresh']);
-      print("PHONE $phone");
-      print("PASSWORD $password");
-      print("RESPONSE $res");
       return res;
     }catch (error){
-      print("ERROR $error");
       throw error;
     }
   }
@@ -112,7 +109,6 @@ class Auth with ChangeNotifier{
         body: jsonEncode({"phone": phone.toString()}),
         headers: { "Content-Type": "application/json; charset=UTF-8"},);
       final responseData = json.decode(utf8.decode(res.bodyBytes));
-      print("PASSWORD $responseData");
       await storage.write(key: "otpNumber", value: phone);
       return res;
     }catch (error){
@@ -133,16 +129,8 @@ class Auth with ChangeNotifier{
             "activation_code": otpNum.toString()}),
           headers: { "Content-Type": "application/json; charset=UTF-8"},
       );
-      print("OTP $otpNum");
-      print("NUMBER $phone");
       final responseData = json.decode(utf8.decode(res.bodyBytes));
       print("RESPONSE FROM OTP $responseData");
-      // await storage.write(key: "userId", value: responseData["id"]);
-      // await storage.write(key: 'refresh', value: responseData['refresh']);
-      // await storage.write(key: 'access', value: responseData['access']);
-      // this._userId = await storage.read(key: 'userId');
-      // this._refresh = await storage.read(key: 'refresh');
-      // this._access = await storage.read(key: 'access');
       return res;
     }catch(error){
       throw error;
@@ -167,6 +155,7 @@ class Auth with ChangeNotifier{
       print("newPassword1 $newPassword1");
       final responseData = json.decode(utf8.decode(res.bodyBytes));
       print("RESPONSE FROM NEW PASSWORD $responseData");
+      this._password = await storage.read(key: 'userId');
       // await storage.write(key: "userId", value: responseData["id"]);
       // await storage.write(key: 'refresh', value: responseData['refresh']);
       // await storage.write(key: 'access', value: responseData['access']);
